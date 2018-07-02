@@ -1,5 +1,6 @@
 import introElement from "./intro";
 import renderScreen from "./render";
+import data from "./data";
 
 window.addEventListener(`load`, () => {
   renderScreen(introElement);
