@@ -1,8 +1,9 @@
 import getElementFromTemplate from "./template";
+import data from "../data";
 import footerTemplate from "./footer";
-import game1Element from "./game-1";
-import renderScreen from "./render";
-import debounce from "./debounce";
+import game1Function from "./game-1";
+import debounce from "../debounce";
+import renderScreen from "../render";
 
 const rulesTemplate = `
 <header class="header">
@@ -31,23 +32,27 @@ const rulesTemplate = `
 </div>
 ${footerTemplate}`;
 
-const rulesElement = getElementFromTemplate(rulesTemplate),
-      form = rulesElement.querySelector(`.rules__form`),
-      userName = form.querySelector(`.rules__input`),
-      submitBtn = form.querySelector(`.rules__button`);
+const rulesFunction = () => {
+  const rulesElement = getElementFromTemplate(rulesTemplate),
+        form = rulesElement.querySelector(`.rules__form`),
+        userName = form.querySelector(`.rules__input`),
+        submitBtn = form.querySelector(`.rules__button`);
 
-const btnUpdate = () => {
-  submitBtn.disabled = !(userName.value.length > 1);
+  const btnUpdate = () => {
+    submitBtn.disabled = !(userName.value.length > 1);
+  };
+
+  submitBtn.disabled = true;
+
+  userName.addEventListener(`input`, () => {
+    debounce(btnUpdate, 500);
+  });
+
+  form.addEventListener(`submit`, () => {
+    game1Function(data);
+  });
+
+  renderScreen(rulesElement);
 };
 
-submitBtn.disabled = true;
-
-userName.addEventListener(`input`, () => {
-  debounce(btnUpdate, 500);
-});
-
-form.addEventListener(`submit`, () => {
-  renderScreen(game1Element);
-});
-
-export default rulesElement;
+export default rulesFunction;

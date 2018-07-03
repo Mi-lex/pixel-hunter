@@ -1,13 +1,11 @@
-import introElement from "./intro";
-import renderScreen from "./render";
-import data from "./data";
+import introFunction from "./templates/intro";
 
 window.addEventListener(`load`, () => {
-  renderScreen(introElement);
+  introFunction();
 });
 
 window.addEventListener(`click`, (e) => {
   if (e.target.closest(`.back`)) {
-    renderScreen(introElement);
+    introFunction();
   }
 });
