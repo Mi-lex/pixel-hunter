@@ -1,8 +1,7 @@
 const initialState = Object.freeze({
-  gameNumb: `game-1`,
-  time: `NN`,
-  lives: 3,
-  gameResults: new Array(10).fill(`unknown`)
+  gameNumb: 1,
+  time: 30,
+  lives: 3
 });
 
 export default initialState;

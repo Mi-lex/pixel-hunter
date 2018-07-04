@@ -1,23 +1,18 @@
 import getElementFromTemplate from "./template";
-import data from "../data";
-import initialState from "../state";
 import gameTemplate from "./game-template";
 import statsElement from "./stats";
 import renderScreen from "../render";
+import gameProcess from "../game-process";
 
-const game3contentTemplate = (data, state) => `
-${data.gameContents[state.gameNumb].options.map((src, numb) =>
+const game3contentTemplate = (data) => `
+${data.gameContents[data.currentState.gameNumb - 1].options.map((opt, numb) =>
   `<div class="game__option">
-    <img src="${src}" alt="Option ${numb}" width="304" height="455">
+    <img src="${opt.src}" alt="Option ${numb + 1}" width="304" height="455">
   </div>`)
   .join(``)}`;
 
 const game3Function = () => {
-  const game3Template = gameTemplate(data, game3contentTemplate,
-    Object.assign({}, initialState, {
-      gameNumb: `game-3`
-    }
-  ));
+  const game3Template = gameTemplate(game3contentTemplate);
 
   const game3Element = getElementFromTemplate(game3Template),
         gameContent = game3Element.querySelector(`.game__content`);
@@ -27,12 +22,15 @@ const game3Function = () => {
 
     if (selectedOpt) {
       selectedOpt.classList.add(`game__option--selected`);
-      renderScreen(statsElement);
+      renderScreen(statsElement); // Нужно поменять валидацию
     }
   });
 
   gameContent.classList.add(`game__content--triple`);
   renderScreen(game3Element);
+  gameProcess.gameTime.startTimer(function () {
+    renderScreen(statsElement);
+  });
 };
 
 export default game3Function;

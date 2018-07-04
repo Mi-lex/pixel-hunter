@@ -1,13 +1,12 @@
 import getElementFromTemplate from "./template";
-import data from "../data";
-import initialState from "../state";
 import gameTemplate from "./game-template";
 import game3Function from "./game-3";
+import gameProcess from "../game-process";
 import renderScreen from "../render";
 
-const game2contentTemplate = (data, state) =>`
+const game2contentTemplate = (data) =>`
   <div class="game__option">
-    <img src="${data.gameContents[state.gameNumb].options}" alt="Option 1" width="705" height="455">
+    <img src="${data.gameContents[data.currentState.gameNumb - 1].options[0].src}" alt="Option 1" width="705" height="455">
     <label class="game__answer  game__answer--photo">
       <input name="question1" type="radio" value="photo">
       <span>Фото</span>
@@ -19,22 +18,17 @@ const game2contentTemplate = (data, state) =>`
   </div>`;
 
 const game2Function = () => {
-  const game2Template = gameTemplate(data, game2contentTemplate,
-    Object.assign({}, initialState, {
-      gameNumb: `game-2`
-    }
-  ));
+  const game2Template = gameTemplate(game2contentTemplate);
 
   const game2Element = getElementFromTemplate(game2Template),
-        gameContent = game2Element.querySelector(`.game__content`),
-        amountOfQuestions = 1;
+        gameContent = game2Element.querySelector(`.game__content`);
 
   const onRadioClickHandler = (e) => {
     if (e.target.closest(`input[type=radio]`)) {
-      const amountOfAnswers = gameContent.querySelectorAll(`input[type=radio]:checked`).length;
+      const answer = gameContent.querySelectorAll(`input[type=radio]:checked`);
 
-      if (amountOfAnswers === amountOfQuestions) {
-        game3Function();
+      if (answer.length) {
+        gameProcess.answerValidation(answer, game3Function);
       }
     }
   };
@@ -43,6 +37,7 @@ const game2Function = () => {
   gameContent.classList.add(`game__content--wide`);
 
   renderScreen(game2Element);
+  gameProcess.gameTime.startTimer(game3Function);
 };
 
 export default game2Function;

@@ -1,37 +1,41 @@
 import getElementFromTemplate from "./template";
-import data from "../data";
 import initialState from "../state";
+import data from "../data";
 import gameTemplate from "./game-template";
 import game2Function from "./game-2";
+import gameProcess from "../game-process";
 import renderScreen from "../render";
 import debounce from "../debounce";
 
-const game1contentTemplate = (data, state) => `
-${data.gameContents[state.gameNumb].options.map((src, numb) =>
+const game1contentTemplate = (data) => `
+${data.gameContents[data.currentState.gameNumb - 1].options.map((opt, numb) =>
   `<div class="game__option">
-    <img src="${src}" alt="Option ${numb}" width="468" height="458">
+    <img src="${opt.src}" alt="Option ${numb + 1}" width="468" height="458">
     <label class="game__answer game__answer--photo">
-      <input name="question${numb}" type="radio" value="photo">
+      <input name="question${numb + 1}" type="radio" value="photo">
       <span>Фото</span>
     </label>
     <label class="game__answer game__answer--paint">
-      <input name="question${numb}" type="radio" value="paint">
+      <input name="question${numb + 1}" type="radio" value="paint">
       <span>Рисунок</span>
     </label>
   </div>`)
   .join(``)}`;
 
 const game1Function = () => {
-  const game1Template = gameTemplate(data, game1contentTemplate, initialState),
+  data.currentState = Object.assign({}, initialState, {
+    gameResults: new Array(10).fill(`unknown`)
+  });
+  const game1Template = gameTemplate(game1contentTemplate),
         game1Element = getElementFromTemplate(game1Template),
         gameContent = game1Element.querySelector(`.game__content`),
         amountOfQuestions = 2;
 
   const contentUpdate = () => {
-    const amountOfAnswers = gameContent.querySelectorAll(`input[type=radio]:checked`).length;
+    const answers = gameContent.querySelectorAll(`input[type=radio]:checked`);
 
-    if (amountOfAnswers === amountOfQuestions) {
-      game2Function();
+    if (answers.length === amountOfQuestions) {
+      gameProcess.answerValidation(answers, game2Function);
     }
   };
 
@@ -43,6 +47,7 @@ const game1Function = () => {
 
   gameContent.addEventListener(`click`, onRadioClickHandler);
   renderScreen(game1Element);
+  gameProcess.gameTime.startTimer(game2Function);
 };
 
 export default game1Function;
