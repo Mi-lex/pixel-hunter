@@ -1,19 +1,13 @@
 import getElementFromTemplate from "./template";
 import data from "../data";
+import headerTemplate from "./header";
 import footerTemplate from "./footer";
 import game1Function from "./game-1";
 import debounce from "../debounce";
 import renderScreen from "../render";
 
 const rulesTemplate = `
-<header class="header">
-  <div class="header__back">
-    <button class="back">
-      <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-      <img src="img/logo_small.svg" width="101" height="44">
-    </button>
-  </div>
-</header>
+${headerTemplate()}
 <div class="rules">
   <h1 class="rules__title">Правила</h1>
   <p class="rules__description">Угадай 10 раз для каждого изображения фото <img
