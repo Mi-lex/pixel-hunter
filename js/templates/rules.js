@@ -1,10 +1,7 @@
-import getElementFromTemplate from "./template";
-import data from "../data";
+import {renderScreen, getElementFromTemplate, debounce} from "../utilities";
 import headerTemplate from "./header";
 import footerTemplate from "./footer";
 import game1Function from "./game-1";
-import debounce from "../debounce";
-import renderScreen from "../render";
 
 const rulesTemplate = `
 ${headerTemplate()}
@@ -27,10 +24,11 @@ ${headerTemplate()}
 ${footerTemplate}`;
 
 const rulesFunction = () => {
-  const rulesElement = getElementFromTemplate(rulesTemplate),
-        form = rulesElement.querySelector(`.rules__form`),
-        userName = form.querySelector(`.rules__input`),
-        submitBtn = form.querySelector(`.rules__button`);
+  const
+    rulesElement = getElementFromTemplate(rulesTemplate),
+    form = rulesElement.querySelector(`.rules__form`),
+    userName = form.querySelector(`.rules__input`),
+    submitBtn = form.querySelector(`.rules__button`);
 
   const btnUpdate = () => {
     submitBtn.disabled = !(userName.value.length > 1);
@@ -39,11 +37,11 @@ const rulesFunction = () => {
   submitBtn.disabled = true;
 
   userName.addEventListener(`input`, () => {
-    debounce(btnUpdate, 500);
+    debounce.start(btnUpdate, 500);
   });
 
   form.addEventListener(`submit`, () => {
-    game1Function(data);
+    game1Function();
   });
 
   renderScreen(rulesElement);

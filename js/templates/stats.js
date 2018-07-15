@@ -1,38 +1,29 @@
-import getElementFromTemplate from "./template";
-import renderScreen from "../render";
-import data from "../data";
+import {renderScreen, getElementFromTemplate} from "../utilities";
+import {states} from "../data";
 import headerTemplate from "./header";
 import footerTemplate from "./footer";
 
-const statsFunction = () => {
-  const gameResultTitle = data.currentState.lives ? `Победа!` : `Поражение!`;
-  let totalResult = ``,
-      tableContent = [],
-      totalFinal = `FAIL`;
+export const statsTemplate = (state) =>
+  states.current.gameResults
+      .map((el) =>
+        `<li class="stats__result stats__result--${el}"></li>`)
+      .join(``);
 
-
-  // if (gameResultTitle === `Победа!`) {
-  //   totalResult = data.currentState.gameResults.filter((el) => el !== `wrong`)
-  //       .reduce((accum, el) => {
-  //         switch (el) {
-  //           case `fast`:
-  //             return accum + 150;
-  //           case `slow`:
-  //             return accum - 50;
-  //           default:
-  //             return accum + 100;
-  //         }
-  //       }, 0) + data.currentState.lives * 50;
-  // }
+export const statsFunction = () => {
+  const gameResultTitle = statsScreenTemplate.lives ? `Победа!` : `Поражение!`;
+  let
+    totalResult = ``,
+    tableContent = [],
+    totalFinal = `FAIL`;
 
   if (gameResultTitle === `Победа!`) {
-    totalResult = data.currentState.gameResults.filter((el) => el !== `wrong`).length * 100;
+    totalResult = states.current.gameResults.filter((el) => el !== `wrong`).length * 100;
 
     tableContent = (function () {
       const contentArr = [],
-        fastAnswers = data.currentState.gameResults.filter((el) => el === `fast`).length,
-        slowAnswers = data.currentState.gameResults.filter((el) => el === `slow`).length,
-        lives = data.currentState.lives;
+        fastAnswers = states.current.gameResults.filter((el) => el === `fast`).length,
+        slowAnswers = states.current.gameResults.filter((el) => el === `slow`).length,
+        lives = states.current.lives;
 
       if (fastAnswers) {
         contentArr.push({
@@ -65,11 +56,11 @@ const statsFunction = () => {
     }());
 
     totalFinal = tableContent.reduce((accum, el) => {
-      return accum + el.bonusAmount
+      return accum + el.bonusAmount;
     }, totalResult);
   }
 
-  const statsTemplate = `
+  const statsScreenTemplate = `
   ${headerTemplate()}
   <div class="result">
     <h1>${gameResultTitle}</h1>
@@ -78,9 +69,7 @@ const statsFunction = () => {
         <td class="result__number">1.</td>
         <td colspan="2">
           <ul class="stats">
-            ${data.currentState.gameResults.map((el) =>
-              `<li class="stats__result stats__result--${el}"></li>`)
-              .join(``)}
+            ${statsTemplate(states.current)}
           </ul>
         <td class="result__points">×&nbsp;100</td>
         <td class="result__total">${totalResult}</td>
@@ -151,9 +140,6 @@ const statsFunction = () => {
   </div>
   ${footerTemplate}`;
 
-  const statsElement = getElementFromTemplate(statsTemplate);
+  const statsElement = getElementFromTemplate(statsScreenTemplate);
   renderScreen(statsElement);
 };
-
-
-export default statsFunction;

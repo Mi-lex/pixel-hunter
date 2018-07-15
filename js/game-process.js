@@ -1,41 +1,70 @@
-import data from "./data";
+import {states, gameContents} from "./data";
 
-const gameProcess = {};
-gameProcess.gameTime = {};
+export const gameTimer = {};
 
-gameProcess.gameTime.startTimer = function (callback) {
-  let countElement = document.querySelector(`.game__timer`);
-
-  this.timerAction = () => {
-    countElement.textContent = countElement.textContent - 1;
-
-    if (+countElement.textContent === 0) {
-      gameProcess.answerValidation(false, callback);
-      clearTimeout(this.timer);
-    } else {
-        this.timer = setTimeout(this.timerAction, 1000);
-    }
-  };
-
-  this.timer = setTimeout(this.timerAction, 1000);
-};
-
-gameProcess.setResult = (result) => {
-  data.currentState.gameResults[data.currentState.gameNumb - 1] = result;
-  data.currentState.gameNumb += 1;
-
-  if (result === `wrong`) {
-    if (data.currentState.lives !== 0) {
-      data.currentState.lives += -1;
-    }
+gameTimer.stop = function () {
+  if (this.timer) {
+    clearTimeout(this.timer);
   }
 };
 
-gameProcess.answerValidation = function (answer, callback) {
-  clearTimeout(this.gameTime.timer);
+/**
+ * Gets timer element and decrements it every second
+ * @param {function} callback - callback function for answerValidation, that
+ * executed when time ends
+ * @return {void}
+ */
+
+gameTimer.start = function (callback) {
+  this.stop();
+
+  let countElement = document.querySelector(`.game__timer`);
+
+  const timerAction = () => {
+    countElement.textContent = countElement.textContent - 1;
+
+    if (Number(countElement.textContent) === 0) {
+      answerValidation(false, callback);
+    } else {
+      this.timer = setTimeout(timerAction, 1000);
+    }
+  };
+
+  this.timer = setTimeout(timerAction, 1000);
+};
+
+const incLevel = () => {
+  states.current.gameNumb += 1;
+};
+
+const decLives = () => {
+  if (states.current.lives === 0) {
+    return
+  }
+  states.current.lives += -1;
+};
+
+/**
+ * Sets result of the game in current state obj. Calls extra functions required
+ * for game logic
+ * @param {string} result - Word, describing last user performance
+ * @return {void}
+ */
+
+const setResult = (result) => {
+  states.current.gameResults[states.current.gameNumb - 1] = result;
+  incLevel();
+
+  if (result === `wrong`) {
+    decLives();
+  }
+};
+
+export const gameEnding = function (answer, callback) {
+  gameTimer.stop();
 
   if (!answer) {
-    this.setResult(`wrong`);
+    setResult(`wrong`);
     callback();
     return;
   }
@@ -43,7 +72,7 @@ gameProcess.answerValidation = function (answer, callback) {
   const answerDuration = 30 - document.querySelector(`.game__timer`).textContent;
 
   const findWrongAnswer = Array.from(answer).find((el, numb) => {
-    const options = data.gameContents[data.currentState.gameNumb - 1].options;
+    const options = gameContents[states.current.gameNumb - 1].options;
 
     if (el.value) {
       return el.value != options[numb].answer;
@@ -53,16 +82,14 @@ gameProcess.answerValidation = function (answer, callback) {
   });
 
   if (findWrongAnswer) {
-    this.setResult(`wrong`);
+    setResult(`wrong`);
   } else if (answerDuration <= 10) {
-      this.setResult(`fast`);
+      setResult(`fast`);
   } else if (answerDuration <= 20) {
-      this.setResult(`correct`);
+      setResult(`correct`);
   } else if (answerDuration > 20) {
-      this.setResult(`slow`);
+      setResult(`slow`);
   }
 
   callback();
 };
-
-export default gameProcess;

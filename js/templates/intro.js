@@ -1,6 +1,5 @@
-import getElementFromTemplate from "./template";
+import {renderScreen, getElementFromTemplate} from "../utilities";
 import greetingFunction from "./greeting";
-import renderScreen from "../render";
 import footerTemplate from "./footer";
 
 const introTemplate = `<div id="main" class="central__content">

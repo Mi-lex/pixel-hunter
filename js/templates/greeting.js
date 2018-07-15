@@ -1,7 +1,6 @@
-import getElementFromTemplate from "./template.js";
+import {renderScreen, getElementFromTemplate} from "../utilities";
 import footerTemplate from "./footer";
 import rulesFunction from "./rules";
-import renderScreen from "../render";
 
 const greetingTemplate = `
   <div class="greeting central--blur">
