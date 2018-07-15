@@ -25,20 +25,10 @@ data.gameContents = Object.freeze([
   },
   {
     task: `Найдите рисунок среди изображений`,
-    options: [
-      {
-        src: `http://placehold.it/304x455`,
-        answer: `photo`
-      },
-      {
-        src: `http://placehold.it/304x455`,
-        answer: `photo`
-      },
-      {
-        src: `http://placehold.it/304x455`,
-        answer: `paint`
-      }
-    ]
+    options: {
+      src: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`],  // change to set later
+      answer: `http://placehold.it/304x455`
+    }
   }
 ]);
 

@@ -23,6 +23,12 @@ gameProcess.gameTime.startTimer = function (callback) {
 gameProcess.setResult = (result) => {
   data.currentState.gameResults[data.currentState.gameNumb - 1] = result;
   data.currentState.gameNumb += 1;
+
+  if (result === `wrong`) {
+    if (data.currentState.lives !== 0) {
+      data.currentState.lives += -1;
+    }
+  }
 };
 
 gameProcess.answerValidation = function (answer, callback) {
@@ -31,16 +37,22 @@ gameProcess.answerValidation = function (answer, callback) {
   if (!answer) {
     this.setResult(`wrong`);
     callback();
-    return
+    return;
   }
 
   const answerDuration = 30 - document.querySelector(`.game__timer`).textContent;
 
-  const areAnswersCorrect = Array.from(answer).find((el, numb) => {
-    return el.value != data.gameContents[data.currentState.gameNumb - 1].options[numb].answer;
+  const findWrongAnswer = Array.from(answer).find((el, numb) => {
+    const options = data.gameContents[data.currentState.gameNumb - 1].options;
+
+    if (el.value) {
+      return el.value != options[numb].answer;
+    } else {
+        return el.src != options.answer;
+    }
   });
 
-  if (!areAnswersCorrect) {
+  if (findWrongAnswer) {
     this.setResult(`wrong`);
   } else if (answerDuration <= 10) {
       this.setResult(`fast`);
