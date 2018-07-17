@@ -1,11 +1,12 @@
-import introFunction from "./templates/intro";
+import intro from "./intro/intro";
+import {changeView} from "./utilities";
 
 window.addEventListener(`load`, () => {
-  introFunction();
+  changeView(intro);
 });
 
 window.addEventListener(`click`, (e) => {
   if (e.target.closest(`.back`)) {
-    introFunction();
+    changeView(intro);
   }
 });

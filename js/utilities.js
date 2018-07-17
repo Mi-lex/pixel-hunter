@@ -7,11 +7,11 @@ export const getElementFromTemplate = (template) => {
   return container;
 };
 
-export const renderScreen = (element) => {
+export const changeView = (view) => {
   const main = document.querySelector(`.central`);
 
   main.innerHTML = ``;
-  main.appendChild(element);
+  main.appendChild(view.element);
 };
 
 export const debounce = {};
