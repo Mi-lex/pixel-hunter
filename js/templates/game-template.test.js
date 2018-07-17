@@ -11,7 +11,7 @@ const game2FakeState = Object.assign({}, game1FakeState, {
   gameNumb: 2,
 });
 
-const game3FakeState = Object.assign({}, game2FakeState, {
+const game3FakeState = Object.assign({}, game1FakeState, {
   gameNumb: 3,
 });
 

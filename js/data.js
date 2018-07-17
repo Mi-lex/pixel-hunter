@@ -1,11 +1,11 @@
 export const gameContents = Object.freeze([
   {
     task: `Угадайте для каждого изображения фото или рисунок?`,
-    options: [`hatman.jpg`, `wind screen.jpg`],
+    options: [`http://placehold.it/468x458`, `http://placehold.it/468x458`],
   },
   {
     task: `Угадай, фото или рисунок?`,
-    options: [`ambootia.jpg`]
+    options: [`http://placehold.it/705x455`]
   },
   {
     task: `Найдите рисунок среди изображений`,

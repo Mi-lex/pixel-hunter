@@ -3,7 +3,7 @@ import headerTemplate from "./header";
 import {statsTemplate} from "./stats";
 import footerTemplate from "./footer";
 
-const gameContent = (content, state) => {
+export const gameContent = (content, state) => {
   const contentObj = content[state.gameNumb - 1];
 
   return contentObj.options.map((src, numb) => {
@@ -18,8 +18,8 @@ const gameContent = (content, state) => {
       </label>`;
 
     const contentTemplate =
-    `<div class="game__option" style="overflow: hidden";>
-    <img src="img/content/${src}" alt="Option ${numb + 1}" height="100%">
+    `<div class="game__option">
+    <img src="${src}" width=100% height=100% alt="Option ${numb + 1}">
       ${inputs}
     </div>`;
 

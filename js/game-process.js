@@ -24,7 +24,7 @@ gameTimer.start = function (callback) {
     countElement.textContent = countElement.textContent - 1;
 
     if (Number(countElement.textContent) === 0) {
-      answerValidation(false, callback);
+      gameEnding(false, callback);
     } else {
       this.timer = setTimeout(timerAction, 1000);
     }
@@ -39,7 +39,7 @@ const incLevel = () => {
 
 const decLives = () => {
   if (states.current.lives === 0) {
-    return
+    return;
   }
   states.current.lives += -1;
 };
