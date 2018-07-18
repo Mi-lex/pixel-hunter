@@ -1,12 +1,11 @@
 import RulesView from "./rules-view";
-// import game from "../game/game";
-// import {changeView} from "../utilities";
+import startGame from "../game/game";
+import {changeView} from "../utilities";
 
 const rules = new RulesView();
 
 rules.nextScreen = function () {
-  // changeView(game);
-  console.log(`yea`);
+  changeView(startGame());
 };
 
 export default rules;

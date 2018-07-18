@@ -1,4 +1,4 @@
-import {gameContents, states} from "../data";
+import {levels, states} from "../data";
 import headerTemplate from "./header";
 import {statsTemplate} from "./stats";
 import footerTemplate from "./footer";
@@ -27,7 +27,7 @@ export const gameContent = (content, state) => {
   });
 };
 
-const gameTemplate = (content = gameContents, state = states.current) => {
+const gameTemplate = (content = levels, state = states.current) => {
   let contentType = ``;
 
   switch (state.gameNumb) {

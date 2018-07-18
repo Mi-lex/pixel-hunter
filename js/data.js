@@ -1,4 +1,4 @@
-export const gameContents = Object.freeze([
+export const levels = Object.freeze([
   {
     task: `Угадайте для каждого изображения фото или рисунок?`,
     options: [`http://placehold.it/468x458`, `http://placehold.it/468x458`],
@@ -13,6 +13,10 @@ export const gameContents = Object.freeze([
     options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`]
   }
 ]);
+
+export const getLevel = (gameNumb) => {
+  return levels[gameNumb - 1];
+};
 
 export const optionElementParams = Object.freeze([
   {
