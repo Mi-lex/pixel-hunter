@@ -8,7 +8,7 @@ export default class GaveoverView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
-    this.isWin = isWin(this.state);
+    this.win = isWin(this.state);
   }
 
   get template() {
@@ -16,44 +16,46 @@ export default class GaveoverView extends AbstractView {
       `<ul class="stats">
         ${drawStats(this.state)}
       </ul>`;
-    let tableContent;
+    let pageContent;
 
-    if (isWin) {
+    if (this.win) {
       const {totalResult, bonuses, totalFinal} = getTableData(this.state);
-      tableContent =
-        `<tr>
-          <td class="result__number">1.</td>
-          <td colspan="2">${statsTemplate}</td>
-          <td class="result__points">×&nbsp;100</td>
-          <td class="result__total">${totalResult}</td>
-        </tr>
-        ${bonuses.map((bonus) =>
-        `<tr>
-          <td></td>
-          <td class="result__extra">${bonus.title}:</td>
-          <td class="result__extra">${bonus.amount}&nbsp;<span class="stats__result stats__result--${bonus.classTitle}"></span></td>
-          <td class="result__points">×&nbsp;50</td>
-          <td class="result__total">${bonus.points}</td>
-        </tr>`)}
-        <tr>
-          <td colspan="5" class="result__total  result__total--final">${totalFinal}</td>
-        </tr>`;
+      pageContent =
+        `<h1>Победа!</h1>
+        <table class="result__table">
+          <tr>
+            <td class="result__number">1.</td>
+            <td colspan="2">${statsTemplate}</td>
+            <td class="result__points">×&nbsp;100</td>
+            <td class="result__total">${totalResult}</td>
+          </tr>
+          ${bonuses.map((bonus) =>
+          `<tr>
+            <td></td>
+            <td class="result__extra">${bonus.title}:</td>
+            <td class="result__extra">${bonus.amount}&nbsp;<span class="stats__result stats__result--${bonus.classTitle}"></span></td>
+            <td class="result__points">×&nbsp;50</td>
+            <td class="result__total">${bonus.points}</td>
+          </tr>`)}
+          <tr>
+            <td colspan="5" class="result__total  result__total--final">${totalFinal}</td>
+          </tr>
+        </table>`;
     } else {
-        tableContent =
-        `<tr>
-          <td class="result__number">1.</td>
-          <td></td>
-          <td class="result__total">${statsTemplate}</td>
-          <td class="result__total  result__total--final">fail</td>
-        </tr>`
+        pageContent =
+        `<table class="result__table">
+          <tr>
+            <td class="result__number">1.</td>
+            <td></td>
+            <td class="result__total">${statsTemplate}</td>
+            <td class="result__total  result__total--final">fail</td>
+          </tr>
+        </table>`
     }
 
     return `${headerTemplate()}
             <div class="result">
-              <h1>Победа!</h1>
-              <table class="result__table">
-                ${tableContent}
-              </table>
+            ${pageContent}
             </div>
             ${footerTemplate}`;
   }

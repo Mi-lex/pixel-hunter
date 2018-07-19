@@ -1,10 +1,11 @@
 import LevelView from "./level-view";
 import gameOverScreen from "../gameover/gameover";
 import {changeView} from "../utilities";
-import {initialState, setResult, resultType, tick} from "../data/data";
+import {initialState, setResult, tick, isAnswerCorrect, resultType} from "../data/data";
 
 const changeLevel = (state) => {
   const level = new LevelView(state);
+  const initialTime = state.time;
 
   let timer;
   const startTimer = () => {
@@ -25,13 +26,29 @@ const changeLevel = (state) => {
 
   level.onAnswer = (answer) => {
     stopTimer();
+    const answerDuration = initialTime - state.time;
+    const isAnswCorrect = (answer === false) ? false : isAnswerCorrect(answer, state);
+    let result, nextView;
+
+    if (isAnswCorrect) {
+      if (answerDuration <= 10) {
+          result = resultType.FAST;
+      } else if (answerDuration <= 20) {
+          result = resultType.CORRECT;
+      } else if (answerDuration > 20) {
+          result = resultType.SLOW;
+      }
+    } else {
+        result = resultType.WRONG;
+    }
 
     if (state.gameNumb === 3) {
-      changeView(gameOverScreen(setResult(state, resultType.CORRECT)));
-    } else if (answer) {
-        const temporaryString = resultType.SLOW;
-        changeView(changeLevel(setResult(state, temporaryString)));
+      nextView = gameOverScreen(setResult(state, result));
+    } else {
+        nextView = changeLevel(setResult(state, result));
     }
+
+    changeView(nextView);
   };
 
   startTimer();
