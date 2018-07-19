@@ -1,16 +1,22 @@
+const PAINT = `paint`;
+const PHOTO = `photo`;
+
 export const levels = Object.freeze([
   {
     task: `Угадайте для каждого изображения фото или рисунок?`,
     options: [`http://placehold.it/468x458`, `http://placehold.it/468x458`],
+    answer: [PAINT, PHOTO]
   },
   {
     task: `Угадай, фото или рисунок?`,
-    options: [`http://placehold.it/705x455`]
+    options: [`http://placehold.it/705x455`],
+    answer: PAINT
   },
   {
     task: `Найдите рисунок среди изображений`,
     hasNotInput: true,
-    options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`]
+    options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`],
+    answer: `http://placehold.it/304x455`
   }
 ]);
 
@@ -40,7 +46,7 @@ const SLOW = `slow`;
 const FAST = `fast`;
 const CORRECT = `correct`;
 const WRONG = `wrong`;
-const LIFE = `life`;
+const ALIVE = `alive`;
 
 export const resultType = {
   SLOW,
@@ -58,7 +64,8 @@ export const resultType = {
 
 export const setResult = (state, levelResult) => {
   const currentState = Object.assign({}, state, {
-    stats: state.stats.slice()
+    stats: state.stats.slice(),
+    time: 30
   });
 
   currentState.stats[state.gameNumb - 1] = levelResult;
@@ -74,17 +81,27 @@ export const setResult = (state, levelResult) => {
   return currentState;
 };
 
+export const tick = (state) => {
+  const currentState = Object.assign({}, state);
+  currentState.time += -1;
+
+  return currentState;
+};
+
 const bonuses = Object.freeze({
   [FAST]: {
     title: `Бонус за скорость`,
+    classTitle: FAST,
     cost: 50
   },
-  [LIFE]: {
+  [ALIVE]: {
     title: `Бонус за жизнь`,
+    classTitle: ALIVE,
     cost: 50
   },
   [SLOW]: {
     title: `Штраф за медлительность`,
+    classTitle: SLOW,
     cost: -50
   }
 });
@@ -101,6 +118,7 @@ export const getBonus = (bonusName, amount) => {
   } else {
       return {
         title: bonus.title,
+        classTitle: bonus.classTitle,
         amount,
         points: amount * bonus.cost
       };
@@ -113,7 +131,7 @@ export const getTableData = (state) => {
     let content = {
       [FAST]: state.stats.filter((el) => el === FAST).length,
       [SLOW]: state.stats.filter((el) => el === SLOW).length,
-      [LIFE]: state.lives
+      [ALIVE]: state.lives
     };
 
     return Object.entries(content).map((pair) => {

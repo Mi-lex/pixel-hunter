@@ -50,7 +50,7 @@ export default class LevelsView extends AbstractView {
 
   get template() {
     const levelNumber = this.state.gameNumb;
-    const level = getLevel(levelNumber);
+    this.level = getLevel(levelNumber);
     let contentType = ``;
 
     switch (levelNumber) {
@@ -64,9 +64,9 @@ export default class LevelsView extends AbstractView {
 
     return `${headerTemplate(drawHeader(this.state))}
             <div class="game">
-              <p class="game__task">${level.task}</p>
+              <p class="game__task">${this.level.task}</p>
               <form class="game__content ${contentType}">
-                ${drawContent(level)}
+                ${drawContent(this.level)}
               </form>
               <div class="stats">
                 <ul class="stats">
@@ -78,27 +78,48 @@ export default class LevelsView extends AbstractView {
   }
 
   bind() {
-    const content = this._element.querySelector(`.game__content`),
-      amountOfQuestions = 2;
+    this.timerElement = this._element.querySelector(`.game__timer`);
+    const content = this._element.querySelector(`.game__content`);
 
-    // const answerUpdate = () => {
-    //   const answers = content.querySelectorAll(`input[type=radio]:checked`);
-    //
-    //   if (answers.length === amountOfQuestions) {
-    //     this.onAnswer(answers);
-    //   }
-    // };
+    let onContentClickHandler, answer;
 
-    const onRadioClickHandler = (e) => {
-      if (e.target.closest(`.game__option`)) {
-        this.onAnswer("answer");
-      }
-    };
+    if (this.level.hasNotInput) {
+      onContentClickHandler = (e) => {
+        const selectedOpt = e.target.closest(`.game__option`);
 
-    content.addEventListener(`click`, onRadioClickHandler);
+        if (selectedOpt) {
+          selectedOpt.classList.add(`game__option--selected`);
+          answer = selectedOpt.querySelector(`img`).src;
+          this.onAnswer(answer);
+        }
+      };
+    } else {
+        const amountOfQuestions = this.level.options.length;
+
+        onContentClickHandler = (e) => {
+          if (e.target.closest(`input[type=radio]`)) {
+            const answers = content.querySelectorAll(`input[type=radio]:checked`);
+
+            if (answers.length === amountOfQuestions) {
+              answer = Array.from(answers).map((input) => input.value);
+              this.onAnswer(answer);
+            }
+          }
+        };
+    }
+
+    content.addEventListener(`click`, onContentClickHandler);
   }
 
   onAnswer(answer) {
     return answer;
+  }
+
+  updateTime(time) {
+    if (time === 0) {
+      this.onAnswer(false);
+    } else {
+        this.timerElement .textContent = time;
+    }
   }
 }

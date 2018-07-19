@@ -31,9 +31,9 @@ export default class GaveoverView extends AbstractView {
         `<tr>
           <td></td>
           <td class="result__extra">${bonus.title}:</td>
-          <td class="result__extra">${bonus.amount}&nbsp;<span class="stats__result stats__result--${`right`}"></span></td>
+          <td class="result__extra">${bonus.amount}&nbsp;<span class="stats__result stats__result--${bonus.classTitle}"></span></td>
           <td class="result__points">×&nbsp;50</td>
-          <td class="result__total">${bonus.bonusAmount}</td>
+          <td class="result__total">${bonus.points}</td>
         </tr>`)}
         <tr>
           <td colspan="5" class="result__total  result__total--final">${totalFinal}</td>
