@@ -1,58 +1,65 @@
 import LevelView from "./level-view";
-import gameOverScreen from "../gameover/gameover";
 import {changeView} from "../utilities";
 import {initialState, setResult, tick, isAnswerCorrect, resultType} from "../data/data";
+import app from "../main";
 
-const changeLevel = (state) => {
-  const level = new LevelView(state);
-  const initialTime = state.time;
+export default class GamePresenter {
+  constructor(state = initialState) {
+    this.state = state;
+    this.initialTime = this.state.time;
+    this.view = new LevelView(this.state);
+  }
 
-  let timer;
-  const startTimer = () => {
+  startTimer() {
     const action = () => {
-      state = tick(state);
-      level.updateTime(state.time);
-      timer = setTimeout(action, 1000);
+      this.state = tick(this.state);
+      this.view.updateTime(this.state.time);
+      this.timer = setTimeout(action, 1000);
+    };
+    this.timer = setTimeout(action, 1000);
+  }
+
+  stopTimer() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+  }
+
+  init() {
+    changeView(this.view);
+    this.startTimer();
+
+    this.view.onAnswer = (answer) => {
+      this.stopTimer();
+      const answerDuration = this.initialTime - this.state.time;
+      const isAnswCorrect = isAnswerCorrect(answer, this.state);
+      let result;
+
+      if (isAnswCorrect) {
+        if (answerDuration <= 10) {
+            result = resultType.FAST;
+        } else if (answerDuration <= 20) {
+            result = resultType.CORRECT;
+        } else if (answerDuration > 20) {
+            result = resultType.SLOW;
+        }
+      } else {
+          result = resultType.WRONG;
+      }
+
+      this.state = setResult(this.state, result);
+
+      if (this.state.gameNumb > 3) {
+        app.showStats(this.state);
+      } else {
+          this.view = new LevelView(this.state);
+          this.init();
+      }
     };
 
-    timer = setTimeout(action, 1000);
-  };
-
-  const stopTimer = () => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-  };
-
-  level.onAnswer = (answer) => {
-    stopTimer();
-    const answerDuration = initialTime - state.time;
-    const isAnswCorrect = (answer === false) ? false : isAnswerCorrect(answer, state);
-    let result, nextView;
-
-    if (isAnswCorrect) {
-      if (answerDuration <= 10) {
-          result = resultType.FAST;
-      } else if (answerDuration <= 20) {
-          result = resultType.CORRECT;
-      } else if (answerDuration > 20) {
-          result = resultType.SLOW;
-      }
-    } else {
-        result = resultType.WRONG;
-    }
-
-    if (state.gameNumb === 3) {
-      nextView = gameOverScreen(setResult(state, result));
-    } else {
-        nextView = changeLevel(setResult(state, result));
-    }
-
-    changeView(nextView);
-  };
-
-  startTimer();
-  return level;
-};
-
-export default () => changeLevel(initialState);
+    this.view.onBack = () => {
+      this.stopTimer();
+      app.showIntro();
+    };
+  }
+}

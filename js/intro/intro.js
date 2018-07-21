@@ -1,11 +1,20 @@
 import IntroView from "./intro-view";
-import greeting from "../greeting/greeting";
 import {changeView} from "../utilities";
+import app from "../main";
 
-const intro = new IntroView();
 
-intro.onStart = function () {
-  changeView(greeting);
-};
+class IntroPresenter {
+  constructor() {
+    this.view = new IntroView();
+  }
 
+  init() {
+    changeView(this.view);
+    this.view.onStart = function () {
+      app.showGreeting();
+    };
+  }
+}
+
+const intro = new IntroPresenter();
 export default intro;

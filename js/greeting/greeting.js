@@ -1,11 +1,21 @@
 import GreetingView from "./greeting-view";
-import rules from "../rules/rules";
 import {changeView} from "../utilities";
+import app from "../main";
 
-const greeting = new GreetingView();
+class GreetingPresentor {
+  constructor() {
+    this.view = new GreetingView();
+  }
 
-greeting.nextScreen = function () {
-  changeView(rules);
-};
+  init() {
+    changeView(this.view);
+
+    this.view.nextScreen = function () {
+      app.showRules();
+    }
+  }
+}
+
+const greeting = new GreetingPresentor();
 
 export default greeting;

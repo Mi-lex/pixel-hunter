@@ -79,7 +79,8 @@ export default class LevelsView extends AbstractView {
 
   bind() {
     this.timerElement = this._element.querySelector(`.game__timer`);
-    const content = this._element.querySelector(`.game__content`);
+    const content = this._element.querySelector(`.game__content`),
+      backElement = this._element.querySelector(`.header__back`);
 
     let onContentClickHandler, answer;
 
@@ -109,10 +110,17 @@ export default class LevelsView extends AbstractView {
     }
 
     content.addEventListener(`click`, onContentClickHandler);
+    backElement.addEventListener(`click`, () => {
+      this.onBack();
+    });
   }
 
   onAnswer(answer) {
     return answer;
+  }
+
+  onBack() {
+
   }
 
   updateTime(time) {

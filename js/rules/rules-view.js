@@ -28,7 +28,8 @@ export default class RulesView extends AbstractView {
   bind() {
     const form = this._element.querySelector(`.rules__form`),
       userName = form.querySelector(`.rules__input`),
-      submitBtn = form.querySelector(`.rules__button`);
+      submitBtn = form.querySelector(`.rules__button`),
+      backElement = this._element.querySelector(`.header__back`);
 
     const btnUpdate = () => {
       submitBtn.disabled = !(userName.value.length > 1);
@@ -43,6 +44,14 @@ export default class RulesView extends AbstractView {
     form.addEventListener(`submit`, () => {
       this.nextScreen();
     });
+
+    backElement.addEventListener(`click`, () => {
+      this.onBack();
+    });
+  }
+
+  onBack() {
+
   }
 
   nextScreen() {

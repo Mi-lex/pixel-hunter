@@ -36,7 +36,7 @@ export const isAnswerCorrect = (answer, state) => {
 
 export const initialState = Object.freeze({
   gameNumb: 1,
-  time: 3,
+  time: 30,
   lives: 3,
   stats: new Array(10).fill(`unknown`)
 });
@@ -84,7 +84,7 @@ export const setResult = (state, levelResult) => {
     decLives(currentState);
   }
 
-  if (currentState.gameNumb < 3) {
+  if (currentState.gameNumb < 4) {
     incLevel(currentState);
   }
 

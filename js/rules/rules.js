@@ -1,11 +1,24 @@
 import RulesView from "./rules-view";
-import startGame from "../game/game";
 import {changeView} from "../utilities";
+import app from "../main";
 
-const rules = new RulesView();
+class RulesPresenter {
+  constructor() {
+    this.view = new RulesView();
+  }
 
-rules.nextScreen = function () {
-  changeView(startGame());
-};
+  init() {
+    changeView(this.view);
+    this.view.nextScreen = function () {
+      app.showGame();
+    };
+
+    this.view.onBack = function () {
+      app.showIntro();
+    };
+  }
+}
+
+const rules = new RulesPresenter();
 
 export default rules;

@@ -4,7 +4,7 @@ import {drawStats} from "../game/level-view";
 import headerTemplate from "../templates/header";
 import footerTemplate from "../templates/footer";
 
-export default class GaveoverView extends AbstractView {
+export default class StatsrView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
@@ -61,6 +61,14 @@ export default class GaveoverView extends AbstractView {
   }
 
   bind() {
+    const backElement = this._element.querySelector(`.header__back`);
+
+    backElement.addEventListener(`click`, () => {
+      this.onBack();
+    });
+  }
+
+  onBack() {
 
   }
 }
