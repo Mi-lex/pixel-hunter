@@ -3,7 +3,7 @@ import {changeView} from "../utilities";
 import app from "../main";
 
 
-class IntroPresenter {
+export default class IntroPresenter {
   constructor() {
     this.view = new IntroView();
   }
@@ -15,6 +15,3 @@ class IntroPresenter {
     };
   }
 }
-
-const intro = new IntroPresenter();
-export default intro;

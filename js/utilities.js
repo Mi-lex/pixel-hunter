@@ -1,5 +1,3 @@
-import {optionElementParams, states} from "./data";
-
 export const getElementFromTemplate = (template) => {
   const container = document.createElement(`div`);
   container.innerHTML = template;

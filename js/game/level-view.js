@@ -36,11 +36,11 @@ const drawContent = (level) => {
   }).join(``);
 };
 
-export const drawStats = (state) =>
-  state.stats
-      .map((el) =>
-        `<li class="stats__result stats__result--${el}"></li>`)
-      .join(``);
+export const drawStats = (stats) =>
+  stats
+    .map((el) =>
+      `<li class="stats__result stats__result--${el}"></li>`)
+    .join(``);
 
 export default class LevelsView extends AbstractView {
   constructor(state) {
@@ -53,8 +53,8 @@ export default class LevelsView extends AbstractView {
     this.level = getLevel(levelNumber);
     let contentType = ``;
 
-    switch (levelNumber) {
-      case 2:
+    switch (this.level.options.length) {
+      case 1:
         contentType = `game__content--wide`;
         break;
       case 3:
@@ -70,7 +70,7 @@ export default class LevelsView extends AbstractView {
               </form>
               <div class="stats">
                 <ul class="stats">
-                  ${drawStats(this.state)}
+                  ${drawStats(this.state.stats)}
                 </ul>
               </div>
             </div>

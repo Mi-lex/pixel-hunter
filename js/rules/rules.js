@@ -2,7 +2,7 @@ import RulesView from "./rules-view";
 import {changeView} from "../utilities";
 import app from "../main";
 
-class RulesPresenter {
+export default class RulesPresenter {
   constructor() {
     this.view = new RulesView();
   }
@@ -18,7 +18,3 @@ class RulesPresenter {
     };
   }
 }
-
-const rules = new RulesPresenter();
-
-export default rules;

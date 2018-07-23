@@ -2,7 +2,7 @@ import GreetingView from "./greeting-view";
 import {changeView} from "../utilities";
 import app from "../main";
 
-class GreetingPresentor {
+export default class GreetingPresentor {
   constructor() {
     this.view = new GreetingView();
   }
@@ -15,7 +15,3 @@ class GreetingPresentor {
     }
   }
 }
-
-const greeting = new GreetingPresentor();
-
-export default greeting;

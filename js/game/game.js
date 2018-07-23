@@ -47,11 +47,10 @@ export default class GamePresenter {
           result = resultType.WRONG;
       }
 
-      this.state = setResult(this.state, result);
-
-      if (this.state.gameNumb > 3) {
-        app.showStats(this.state);
+      if (this.state.gameNumb === this.state.stats.length) {
+        app.showStats(setResult(this.state, result).stats);
       } else {
+          this.state = setResult(this.state, result);
           this.view = new LevelView(this.state);
           this.init();
       }

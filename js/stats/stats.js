@@ -4,9 +4,9 @@ import {initialState} from "../data/data";
 import {changeView} from "../utilities";
 
 export default class StatsPresenter {
-  constructor(state = initialState) {
-    this.state = state;
-    this.view = new StatsView(state);
+  constructor(stats = initialState.stats) {
+    this.stats = stats;
+    this.view = new StatsView(stats);
   }
 
   init() {

@@ -5,21 +5,21 @@ import headerTemplate from "../templates/header";
 import footerTemplate from "../templates/footer";
 
 export default class StatsrView extends AbstractView {
-  constructor(state) {
+  constructor(stats) {
     super();
-    this.state = state;
-    this.win = isWin(this.state);
+    this.stats = stats;
+    this.win = isWin(this.stats);
   }
 
   get template() {
     const statsTemplate =
       `<ul class="stats">
-        ${drawStats(this.state)}
+        ${drawStats(this.stats)}
       </ul>`;
     let pageContent;
 
     if (this.win) {
-      const {totalResult, bonuses, totalFinal} = getTableData(this.state);
+      const {totalResult, bonuses, totalFinal} = getTableData(this.stats);
       pageContent =
         `<h1>Победа!</h1>
         <table class="result__table">

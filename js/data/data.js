@@ -17,6 +17,43 @@ export const levels = Object.freeze([
     hasNotInput: true,
     options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`],
     answer: `http://placehold.it/304x455`
+  },
+  {
+    task: `Угадайте для каждого изображения фото или рисунок?`,
+    options: [`http://placehold.it/468x458`, `http://placehold.it/468x458`],
+    answer: [PAINT, PHOTO]
+  },
+  {
+    task: `Угадай, фото или рисунок?`,
+    options: [`http://placehold.it/705x455`],
+    answer: [PAINT]
+  },
+  {
+    task: `Найдите рисунок среди изображений`,
+    hasNotInput: true,
+    options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`],
+    answer: `http://placehold.it/304x455`
+  },
+  {
+    task: `Угадайте для каждого изображения фото или рисунок?`,
+    options: [`http://placehold.it/468x458`, `http://placehold.it/468x458`],
+    answer: [PAINT, PHOTO]
+  },
+  {
+    task: `Угадай, фото или рисунок?`,
+    options: [`http://placehold.it/705x455`],
+    answer: [PAINT]
+  },
+  {
+    task: `Найдите рисунок среди изображений`,
+    hasNotInput: true,
+    options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`],
+    answer: `http://placehold.it/304x455`
+  },
+  {
+    task: `Угадай, фото или рисунок?`,
+    options: [`http://placehold.it/705x455`],
+    answer: [PAINT]
   }
 ]);
 
@@ -84,7 +121,7 @@ export const setResult = (state, levelResult) => {
     decLives(currentState);
   }
 
-  if (currentState.gameNumb < 4) {
+  if (currentState.gameNumb < currentState.stats.length) {
     incLevel(currentState);
   }
 
@@ -135,13 +172,13 @@ export const getBonus = (bonusName, amount) => {
   }
 };
 
-export const getTableData = (state) => {
-  const totalResult = state.stats.filter((el) => el !== `wrong`).length * 100;
+export const getTableData = (stats) => {
+  const totalResult = stats.filter((el) => el !== `wrong`).length * 100;
   const bonuses = (function () {
     let content = {
-      [FAST]: state.stats.filter((el) => el === FAST).length,
-      [SLOW]: state.stats.filter((el) => el === SLOW).length,
-      [ALIVE]: state.lives
+      [FAST]: stats.filter((el) => el === FAST).length,
+      [SLOW]: stats.filter((el) => el === SLOW).length,
+      [ALIVE]: 3 - stats.filter((el) => el === WRONG).length,
     };
 
     return Object.entries(content).map((pair) => {
@@ -161,6 +198,26 @@ export const getTableData = (state) => {
   };
 };
 
-export const isWin = (state) => {
-  return state.lives > 0;
+export const isWin = (stats) => {
+  return stats.filter((el) => el === WRONG).length < 3;
+};
+
+const statsHashParams = [
+  resultType.WRONG,   // 0
+  resultType.SLOW,    // 1
+  resultType.CORRECT, // 2
+  resultType.FAST     // 3
+];
+
+
+export const statsHashCypher = (stats) => {
+  return stats.map((el) => statsHashParams.indexOf(el)).join(``);
+};
+
+export const statsHashDecypher = (params) => {
+  if (params.length !== initialState.stats.length) {
+    throw new RangeError(`Amount of answers is not equal to amount of questions`);
+  } else {
+      return params.split(``).map((numb) => statsHashParams[Number(numb)]);
+  }
 };
