@@ -61,6 +61,17 @@ export const getLevel = (gameNumb) => {
   return levels[gameNumb - 1];
 };
 
+const LevelTypes = {
+  1: `game__content--wide`,
+  2: ``,
+  3: `game__content--triple`
+};
+
+export const getLevelType = (level) => {
+  const amountOfOptions = level.options.length;
+  return LevelTypes[amountOfOptions];
+};
+
 export const isAnswerCorrect = (answer, state) => {
   const level = getLevel(state.gameNumb);
 

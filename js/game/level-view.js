@@ -1,7 +1,7 @@
 import AbstractView from "../view";
 import headerTemplate from "../templates/header";
 import footerTemplate from "../templates/footer";
-import {getLevel} from "../data/data";
+import {getLevel, getLevelType} from "../data/data";
 
 const drawHeader = (state) =>
   `<h1 class="game__timer">${state.time}</h1>
@@ -51,21 +51,11 @@ export default class LevelsView extends AbstractView {
   get template() {
     const levelNumber = this.state.gameNumb;
     this.level = getLevel(levelNumber);
-    let contentType = ``;
-
-    switch (this.level.options.length) {
-      case 1:
-        contentType = `game__content--wide`;
-        break;
-      case 3:
-        contentType = `game__content--triple`;
-        break;
-    }
 
     return `${headerTemplate(drawHeader(this.state))}
             <div class="game">
               <p class="game__task">${this.level.task}</p>
-              <form class="game__content ${contentType}">
+              <form class="game__content ${getLevelType(this.level)}">
                 ${drawContent(this.level)}
               </form>
               <div class="stats">
