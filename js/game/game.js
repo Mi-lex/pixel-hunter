@@ -1,6 +1,7 @@
 import LevelView from "./level-view";
 import {changeView} from "../utilities";
-import {initialState, setResult, tick, isAnswerCorrect, resultType} from "../data/data";
+import {initialState, setResult, tick, isAnswerCorrect} from "../data/game-data";
+import {resultType} from "../data/stats-data";
 import app from "../main";
 
 export default class GamePresenter {
@@ -46,6 +47,8 @@ export default class GamePresenter {
       } else {
           result = resultType.WRONG;
       }
+
+      // if it's last level, show statistics screen
 
       if (this.state.gameNumb === this.state.stats.length) {
         app.showStats(setResult(this.state, result).stats);

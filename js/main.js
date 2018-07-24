@@ -3,7 +3,7 @@ import Greeting from './greeting/greeting';
 import Rules from './rules/rules';
 import Game from './game/game';
 import Stats from './stats/stats';
-import {statsHashCypher, statsHashDecypher} from './data/data';
+import {statsHashCypher, statsHashDecypher} from './data/stats-data';
 
 const ControllerID = {
   INTRO: ``,

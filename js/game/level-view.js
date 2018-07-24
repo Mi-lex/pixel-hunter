@@ -1,7 +1,7 @@
 import AbstractView from "../view";
 import headerTemplate from "../templates/header";
 import footerTemplate from "../templates/footer";
-import {getLevel, getLevelType} from "../data/data";
+import {getLevel, getLevelType} from "../data/game-data";
 
 const drawHeader = (state) =>
   `<h1 class="game__timer">${state.time}</h1>

@@ -1,12 +1,11 @@
 import StatsView from "./stats-view";
 import app from "../main";
-import {initialState} from "../data/data";
 import {changeView} from "../utilities";
 
 export default class StatsPresenter {
-  constructor(stats = initialState.stats) {
+  constructor(stats) {
     this.stats = stats;
-    this.view = new StatsView(stats);
+    this.view = new StatsView(this.stats);
   }
 
   init() {
