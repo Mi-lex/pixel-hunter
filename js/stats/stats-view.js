@@ -1,6 +1,6 @@
 import AbstractView from "../view";
 import {isWin, getTableData} from "../data/stats-data";
-import {drawStats} from "../game/level-view";
+import {drawStats} from "../game/game-view";
 import headerTemplate from "../templates/header";
 import footerTemplate from "../templates/footer";
 

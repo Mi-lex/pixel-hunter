@@ -1,14 +1,21 @@
-import LevelView from "./level-view";
+import GameType1View from "./game-view-1";
+import GameType2View from "./game-view-2";
+import GameType3View from "./game-view-3";
 import {changeView} from "../utilities";
-import {initialState, setResult, tick, isAnswerCorrect} from "../data/game-data";
-import {resultType} from "../data/stats-data";
+import {initialState, getResult, setResult, tick, getLevel, isAnswerCorrect} from "../data/game-data";
 import app from "../main";
+
+const GameView = {
+  "tinder-like": GameType1View,
+  "two-of-two": GameType2View,
+  "one-of-three": GameType3View
+};
 
 export default class GamePresenter {
   constructor(state = initialState) {
     this.state = state;
     this.initialTime = this.state.time;
-    this.view = new LevelView(this.state);
+    this.view = new GameView[getLevel(this.state.gameNumb).type](this.state);
   }
 
   startTimer() {
@@ -33,28 +40,16 @@ export default class GamePresenter {
     this.view.onAnswer = (answer) => {
       this.stopTimer();
       const answerDuration = this.initialTime - this.state.time;
-      const isAnswCorrect = isAnswerCorrect(answer, this.state);
-      let result;
-
-      if (isAnswCorrect) {
-        if (answerDuration <= 10) {
-            result = resultType.FAST;
-        } else if (answerDuration <= 20) {
-            result = resultType.CORRECT;
-        } else if (answerDuration > 20) {
-            result = resultType.SLOW;
-        }
-      } else {
-          result = resultType.WRONG;
-      }
+      // const isAnswCorrect = isAnswerCorrect(answer, this.state);
+      const isAnswCorrect = answer;
+      const result = getResult(answerDuration, isAnswCorrect);
 
       // if it's last level, show statistics screen
-
       if (this.state.gameNumb === this.state.stats.length) {
         app.showStats(setResult(this.state, result).stats);
       } else {
           this.state = setResult(this.state, result);
-          this.view = new LevelView(this.state);
+          this.view = new GameView[getLevel(this.state.gameNumb).type](this.state);
           this.init();
       }
     };

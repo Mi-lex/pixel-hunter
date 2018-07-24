@@ -1,61 +1,192 @@
+import {resultType} from "../data/stats-data";
+
 const PAINT = `paint`;
 const PHOTO = `photo`;
 
-export const levels = Object.freeze([
+const levels = Object.freeze([
   {
-    task: `Угадайте для каждого изображения фото или рисунок?`,
-    options: [`http://placehold.it/468x458`, `http://placehold.it/468x458`],
-    answer: [PAINT, PHOTO]
-  },
-  {
-    task: `Угадай, фото или рисунок?`,
-    options: [`http://placehold.it/705x455`],
-    answer: [PAINT]
-  },
-  {
-    task: `Найдите рисунок среди изображений`,
-    hasNotInput: true,
-    options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`],
-    answer: `http://placehold.it/304x455`
-  },
-  {
-    task: `Угадайте для каждого изображения фото или рисунок?`,
-    options: [`http://placehold.it/468x458`, `http://placehold.it/468x458`],
-    answer: [PAINT, PHOTO]
-  },
-  {
-    task: `Угадай, фото или рисунок?`,
-    options: [`http://placehold.it/705x455`],
-    answer: [PAINT]
-  },
-  {
-    task: `Найдите рисунок среди изображений`,
-    hasNotInput: true,
-    options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`],
-    answer: `http://placehold.it/304x455`
-  },
-  {
-    task: `Угадайте для каждого изображения фото или рисунок?`,
-    options: [`http://placehold.it/468x458`, `http://placehold.it/468x458`],
-    answer: [PAINT, PHOTO]
-  },
-  {
-    task: `Угадай, фото или рисунок?`,
-    options: [`http://placehold.it/705x455`],
-    answer: [PAINT]
-  },
-  {
-    task: `Найдите рисунок среди изображений`,
-    hasNotInput: true,
-    options: [`http://placehold.it/304x455`, `http://placehold.it/304x455`, `http://placehold.it/304x455`],
-    answer: `http://placehold.it/304x455`
-  },
-  {
-    task: `Угадай, фото или рисунок?`,
-    options: [`http://placehold.it/705x455`],
-    answer: [PAINT]
-  }
-]);
+  "type": "one-of-three",
+  "question": "Найдите фото среди изображений",
+  "answers": [
+    {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+      },
+    "type": "painting"
+    },
+    {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+      },
+    "type": "painting"
+    },
+    {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "photo"
+  }]
+},
+{
+  "type": "tinder-like",
+  "question": "Угадай, фото или рисунок?",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/705x455",
+      "width": 705,
+      "height": 455
+    },
+    "type": "photo"
+  }]
+},
+{
+  "type": "tinder-like",
+  "question": "Угадай, фото или рисунок?",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/705x455",
+      "width": 705,
+      "height": 455
+    },
+    "type": "photo"
+  }]
+},
+{
+  "type": "tinder-like",
+  "question": "Угадай, фото или рисунок?",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/705x455",
+      "width": 705,
+      "height": 455
+    },
+    "type": "painting"
+  }]
+},
+{
+  "type": "one-of-three",
+  "question": "Найдите рисунок среди изображений",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "photo"
+  }, {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "photo"
+  }, {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "painting"
+  }]
+},
+{
+  "type": "one-of-three",
+  "question": "Найдите рисунок среди изображений",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "photo"
+  }, {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "photo"
+  }, {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "painting"
+  }]
+}, {
+  "type": "tinder-like",
+  "question": "Угадай, фото или рисунок?",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/705x455",
+      "width": 705,
+      "height": 455
+    },
+    "type": "painting"
+  }]
+}, {
+  "type": "two-of-two",
+  "question": "Угадайте для каждого изображения фото или рисунок?",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/468x458",
+      "width": 468,
+      "height": 458
+    },
+    "type": "photo"
+  }, {
+    "image": {
+      "url": "http://placehold.it/468x458",
+      "width": 468,
+      "height": 458
+    },
+    "type": "photo"
+  }]
+}, {
+  "type": "tinder-like",
+  "question": "Угадай, фото или рисунок?",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/705x455",
+      "width": 705,
+      "height": 455
+    },
+    "type": "photo"
+  }]
+}, {
+  "type": "one-of-three",
+  "question": "Найдите фото среди изображений",
+  "answers": [{
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "painting"
+  }, {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "painting"
+  }, {
+    "image": {
+      "url": "http://placehold.it/304x455",
+      "width": 304,
+      "height": 455
+    },
+    "type": "photo"
+  }]
+}]
+);
 
 export const getLevel = (gameNumb) => {
   return levels[gameNumb - 1];
@@ -95,6 +226,24 @@ export const initialState = Object.freeze({
   lives: 3,
   stats: new Array(10).fill(`unknown`)
 });
+
+export const getResult = (answerTime, answerCorrect) => {
+  let result;
+
+  if (answerCorrect) {
+    if (answerTime <= 10) {
+        result = resultType.FAST;
+    } else if (answerTime <= 20) {
+        result = resultType.CORRECT;
+    } else if (answerTime > 20) {
+        result = resultType.SLOW;
+    }
+  } else {
+      result = resultType.WRONG;
+  }
+
+  return result;
+};
 
 export const incLevel = (state) => {
   state.gameNumb += 1;
