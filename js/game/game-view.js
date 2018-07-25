@@ -41,7 +41,6 @@ export default class GameView extends AbstractView {
     });
   }
 
-
   onAnswer(answer) {
     return answer;
   }

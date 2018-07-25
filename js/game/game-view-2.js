@@ -35,12 +35,21 @@ export default class GameType1View extends GameView {
         const amountOfGivenAnswers = answers.length;
 
         if (amountOfGivenAnswers === amountOfOptions) {
-          this.onAnswer(true);
+          const givenValues = Array.from(answers).map((el) => el.value);
+          this.onAnswer(this.isAnswerCorrect(givenValues));
         }
       }
     };
 
     content.addEventListener(`click`, onContentClickHandler);
     this.extraGameElementsBind();
+  }
+
+  isAnswerCorrect(values) {
+    const wrongAnswer = this.level.answers.find((answer, numb) => {
+      return answer.type !== values[numb];
+    });
+
+    return (!wrongAnswer) ? true : false;
   }
 }

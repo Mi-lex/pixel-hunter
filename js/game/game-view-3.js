@@ -40,11 +40,21 @@ export default class GameType1View extends GameView {
 
       if (selectedOpt) {
         selectedOpt.classList.add(`game__option--selected`);
-        this.onAnswer(true);
+        const url = selectedOpt.querySelector(`img`).src;
+        this.onAnswer(this.isAnswerCorrect(url));
       }
     };
 
     content.addEventListener(`click`, onContentClickHandler);
     this.extraGameElementsBind();
+  }
+
+  isAnswerCorrect(url) {
+    const type = (~this.level.question.indexOf(`рисунок`)) ? `photo` : `painting`;
+    const correctAnswer = this.level.answers.find((answer) => {
+      return answer.image.url === url && answer.type === type;
+    });
+
+    return (correctAnswer) ? true : false;
   }
 }

@@ -12,7 +12,7 @@ export const drawContent = (level) => {
                   <span>Фото</span>
                 </label>
                 <label class="game__answer game__answer--paint">
-                  <input name="question${numb + 1}" type="radio" value="paint">
+                  <input name="question${numb + 1}" type="radio" value="painting">
                   <span>Рисунок</span>
                 </label>
             </div>`;
@@ -46,11 +46,17 @@ export default class GameType2View extends GameView {
 
     const onContentClickHandler = (e) => {
       if (e.target.closest(`input[type=radio]`)) {
-        this.onAnswer(true);
+        const givenValue = content.querySelector(`input[type=radio]:checked`).value;
+
+        this.onAnswer(this.isAnswerCorrect(givenValue));
       }
     };
 
     content.addEventListener(`click`, onContentClickHandler);
     this.extraGameElementsBind();
+  }
+
+  isAnswerCorrect(value) {
+    return value === this.level.answers[0].type;
   }
 }
