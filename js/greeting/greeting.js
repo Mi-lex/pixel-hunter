@@ -12,6 +12,6 @@ export default class GreetingPresentor {
 
     this.view.nextScreen = function () {
       app.showRules();
-    }
+    };
   }
 }

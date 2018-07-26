@@ -20,8 +20,8 @@ export const drawContent = (level) => {
 };
 
 export default class GameType2View extends GameView {
-  constructor(state) {
-    super(state);
+  constructor(state, level) {
+    super(state, level);
   }
 
   get template() {

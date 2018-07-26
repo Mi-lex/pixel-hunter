@@ -13,6 +13,6 @@ export default class StatsPresenter {
 
     this.view.onBack = () => {
       app.showIntro();
-    }
+    };
   }
 }

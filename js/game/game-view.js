@@ -1,6 +1,5 @@
 import AbstractView from "../view";
 import headerTemplate from "../templates/header";
-import {getLevel} from "../data/game-data";
 
 const drawHeader = (state) =>
   `<h1 class="game__timer">${state.time}</h1>
@@ -18,10 +17,10 @@ export const drawStats = (stats) =>
   stats.map((el) => `<li class="stats__result stats__result--${el}"></li>`).join(``);
 
 export default class GameView extends AbstractView {
-  constructor(state) {
+  constructor(state, level) {
     super();
     this.state = state;
-    this.level = getLevel(this.state.gameNumb);
+    this.level = level;
   }
 
   get gameHeaderTemplate() {

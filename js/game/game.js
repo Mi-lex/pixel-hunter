@@ -2,7 +2,7 @@ import GameType1View from "./game-view-1";
 import GameType2View from "./game-view-2";
 import GameType3View from "./game-view-3";
 import {changeView} from "../utilities";
-import {initialState, getResult, setResult, tick, getLevel, isAnswerCorrect} from "../data/game-data";
+import {initialState, getResult, setResult, tick} from "../data/game-data";
 import app from "../main";
 
 const GameView = {
@@ -12,10 +12,15 @@ const GameView = {
 };
 
 export default class GamePresenter {
-  constructor(state = initialState) {
+  constructor(levels, state = initialState) {
+    this.levels = levels;
     this.state = state;
     this.initialTime = this.state.time;
-    this.view = new GameView[getLevel(this.state.gameNumb).type](this.state);
+    this.view = new GameView[this.getLevel().type](this.state, this.getLevel());
+  }
+
+  getLevel() {
+    return this.levels[this.state.gameNumb - 1];
   }
 
   startTimer() {
@@ -40,7 +45,6 @@ export default class GamePresenter {
     this.view.onAnswer = (answer) => {
       this.stopTimer();
       const answerDuration = this.initialTime - this.state.time;
-      // const isAnswCorrect = isAnswerCorrect(answer, this.state);
       const isAnswCorrect = answer;
       const result = getResult(answerDuration, isAnswCorrect);
 
@@ -49,7 +53,8 @@ export default class GamePresenter {
         app.showStats(setResult(this.state, result).stats);
       } else {
           this.state = setResult(this.state, result);
-          this.view = new GameView[getLevel(this.state.gameNumb).type](this.state);
+          const nextLevel = this.getLevel();
+          this.view = new GameView[nextLevel.type](this.state, nextLevel);
           this.init();
       }
     };

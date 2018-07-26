@@ -12,8 +12,8 @@ const drawContent = (level) => {
 };
 
 export default class GameType1View extends GameView {
-  constructor(state) {
-    super(state);
+  constructor(state, level) {
+    super(state, level);
   }
 
   get template() {
@@ -50,7 +50,7 @@ export default class GameType1View extends GameView {
   }
 
   isAnswerCorrect(url) {
-    const type = (~this.level.question.indexOf(`рисунок`)) ? `photo` : `painting`;
+    const type = (~this.level.question.indexOf(`рисунок`)) ? `painting` : `photo`;
     const correctAnswer = this.level.answers.find((answer) => {
       return answer.image.url === url && answer.type === type;
     });

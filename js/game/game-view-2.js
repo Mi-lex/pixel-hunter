@@ -5,8 +5,8 @@ import {drawContent} from "./game-view-1";
 import footerTemplate from "../templates/footer";
 
 export default class GameType1View extends GameView {
-  constructor(state) {
-    super(state);
+  constructor(state, level) {
+    super(state, level);
   }
 
   get template() {
@@ -26,8 +26,8 @@ export default class GameType1View extends GameView {
   }
 
   bind() {
-    const content = this._element.querySelector(`.game__content`),
-      amountOfOptions = this.level.answers.length;
+    const content = this._element.querySelector(`.game__content`);
+    const amountOfOptions = this.level.answers.length;
 
     const onContentClickHandler = (e) => {
       if (e.target.closest(`input[type=radio]`)) {
