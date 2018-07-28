@@ -13,6 +13,7 @@ const GameView = {
 
 export default class GamePresenter {
   constructor(levels, state = initialState) {
+    this.userName = localStorage.getItem(`name`);
     this.levels = levels;
     this.state = state;
     this.initialTime = this.state.time;
@@ -39,9 +40,17 @@ export default class GamePresenter {
   }
 
   init() {
+    // Show current game screen and then start the timer
     changeView(this.view);
     this.startTimer();
 
+    // Override view method which triggers when user gives answer
+
+    /**
+     * Gets answer and considers next step depending on current state.
+     * @param {boolean} answer - answer given by user
+     * @return {void}
+     */
     this.view.onAnswer = (answer) => {
       this.stopTimer();
       const answerDuration = this.initialTime - this.state.time;
@@ -50,7 +59,14 @@ export default class GamePresenter {
 
       // if it's last level, show statistics screen
       if (this.state.gameNumb === this.state.stats.length) {
-        app.showStats(setResult(this.state, result).stats);
+        this.state = setResult(this.state, result);
+
+        const statsObj = {
+          stats: this.state.stats,
+          lives: this.state.lives
+        };
+        app.showStats(this.userName, statsObj);
+        // if level is not last, make a new view depending on level type and execute init method recursively
       } else {
           this.state = setResult(this.state, result);
           const nextLevel = this.getLevel();

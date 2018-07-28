@@ -1,5 +1,3 @@
-import {initialState} from "./game-data";
-
 const ALIVE = `alive`;
 const SLOW = `slow`;
 const FAST = `fast`;
@@ -31,6 +29,8 @@ const bonuses = Object.freeze({
   }
 });
 
+const POINT_PER_ANSWER = 100;
+
 export const getBonus = (bonusName, amount) => {
   if (!amount) {
     return null;
@@ -50,20 +50,35 @@ export const getBonus = (bonusName, amount) => {
   }
 };
 
-export const getTableData = (stats) => {
-  const totalResult = stats.filter((el) => el !== `wrong`).length * 100;
+/**
+ * Builds the object that contains scores and bonuses informatin.
+ * @param {array} stats - list of user's result
+ * @param {integer} lives - amount of lives that left in the end
+ * @return {obj}
+ */
+export const getTableData = (stats, lives) => {
+  // Each right answer gives some point
+  const totalResult = stats.filter((el) => el !== `wrong`).length * POINT_PER_ANSWER;
+
+  /**
+   * Builds objects that contains "name of bonus": bonus amount, then
+   * replace this object with array of objects. Each object in that array
+   * represents iformation about bonus.
+   @return {object} for detailed information look at getBonus function return.
+   */
   const bonuses = (function () {
-    let content = {
+    let bonusMap = {
       [FAST]: stats.filter((el) => el === FAST).length,
       [SLOW]: stats.filter((el) => el === SLOW).length,
-      [ALIVE]: 3 - stats.filter((el) => el === WRONG).length,
+      [ALIVE]: lives,
     };
 
-    return Object.entries(content).map((pair) => {
-      return getBonus(pair[0], pair[1]);
+    return Object.entries(bonusMap).map((pair) => {
+      return getBonus(pair[0], pair[1]); // pair[0] - bonus name, pair[1] - bonus amount
     }).filter((el) => el !== null);
   }());
 
+  // Accumulate all bonuses points and points that were given for each answer
   const totalFinal = bonuses
       .reduce((accum, bonus) => {
         return accum + bonus.points;
@@ -74,28 +89,4 @@ export const getTableData = (stats) => {
     bonuses,
     totalFinal
   };
-};
-
-export const isWin = (stats) => {
-  return stats.filter((el) => el === WRONG).length < 3;
-};
-
-const statsHashParams = [
-  resultType.WRONG,   // 0
-  resultType.SLOW,    // 1
-  resultType.CORRECT, // 2
-  resultType.FAST     // 3
-];
-
-
-export const statsHashCypher = (stats) => {
-  return stats.map((el) => statsHashParams.indexOf(el)).join(``);
-};
-
-export const statsHashDecypher = (params) => {
-  if (params.length !== initialState.stats.length) {
-    throw new RangeError(`Amount of answers is not equal to amount of questions`);
-  } else {
-      return params.split(``).map((numb) => statsHashParams[Number(numb)]);
-  }
 };

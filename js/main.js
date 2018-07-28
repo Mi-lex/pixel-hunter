@@ -4,7 +4,6 @@ import Rules from './rules/rules';
 import Game from './game/game';
 import Stats from './stats/stats';
 import Model from "./model";
-import {statsHashCypher, statsHashDecypher} from './data/stats-data';
 
 const ControllerID = {
   INTRO: ``,
@@ -15,11 +14,12 @@ const ControllerID = {
 };
 
 const getControllerIDFromHash = (hash) => {
-  return hash ? hash.replace(`#`, ``).match(/[^=]+/g) : [``];
+  return hash ? hash.replace(`#`, ``).split(`?`) : [``];
 };
 
 class Application {
   constructor() {
+    this.userName = `Guest`;
     this.model = new class extends Model {
       get urlRead() {
         return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/pixel-hunter/questions`;
@@ -32,12 +32,11 @@ class Application {
       .catch(window.console.error);
   }
 
-  changeController(route = ``, param) {
+  changeController(route = ``, userName = `Guest`) {
     let controller;
 
     if (route === ControllerID.STATS) {
-      const stats = statsHashDecypher(param);
-      controller = new this.routes[route](stats);
+      controller = new this.routes[route](this.userResult, userName);
     } else {
         controller = this.routes[route];
     }
@@ -77,9 +76,9 @@ class Application {
     location.hash = ControllerID.GAME;
   }
 
-  showStats(stats) {
-    const hashStats = statsHashCypher(stats);
-    location.hash = `${ControllerID.STATS}=${hashStats}`;
+  showStats(userName, userResult) {
+    this.userResult = userResult;
+    location.hash = `${ControllerID.STATS}?${userName}`;
   }
 }
 

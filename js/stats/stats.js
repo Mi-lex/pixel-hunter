@@ -1,18 +1,37 @@
 import StatsView from "./stats-view";
 import app from "../main";
+import Model from "../model";
 import {changeView} from "../utilities";
 
 export default class StatsPresenter {
-  constructor(stats) {
-    this.stats = stats;
-    this.view = new StatsView(this.stats);
+  constructor(userResult, userName) {
+    this.userResult = userResult;
+    this.model = new class extends Model {
+      get urlRead() {
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/pixel-hunter/stats/${userName}`;
+      }
+
+      get urlWrite() {
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/pixel-hunter/stats/${userName}`;
+      }
+    }();
+  }
+
+  showUserResultTable() {
+    this.model.load()
+        .then((resultTable) => {
+          this.view = new StatsView(resultTable);
+        })
+        .then(() => changeView(this.view))
+        .catch(window.console.error);
   }
 
   init() {
-    changeView(this.view);
-
-    this.view.onBack = () => {
-      app.showIntro();
-    };
+    if (this.userResult) {
+      this.model.send(this.userResult)
+          .then(() => this.showUserResultTable());
+    } else {
+        this.showUserResultTable();
+    }
   }
 }

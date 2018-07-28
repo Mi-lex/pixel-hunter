@@ -9,7 +9,8 @@ export default class RulesPresenter {
 
   init() {
     changeView(this.view);
-    this.view.nextScreen = function () {
+    this.view.onUserNameSubmit = (name) => {
+      localStorage.setItem(`name`, name);
       app.showGame();
     };
 
