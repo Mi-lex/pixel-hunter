@@ -21,6 +21,10 @@ export default class StatsPresenter {
     this.model.load()
         .then((resultTable) => {
           this.view = new StatsView(resultTable);
+
+          this.view.onBack = () => {
+            app.showIntro();
+          };
         })
         .then(() => changeView(this.view))
         .catch(window.console.error);
