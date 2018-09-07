@@ -1,6 +1,5 @@
 import AbstractView from "../view";
 import headerTemplate from "../templates/header";
-import footerTemplate from "../templates/footer";
 import {debounce} from "../utilities";
 
 export default class RulesView extends AbstractView {
@@ -21,8 +20,7 @@ export default class RulesView extends AbstractView {
                 <input class="rules__input" type="text" placeholder="Ваше Имя">
                 <button class="rules__button  continue" type="submit" disabled>Go!</button>
               </form>
-            </div>
-            ${footerTemplate}`;
+            </div>`;
   }
 
   bind() {

@@ -2,7 +2,6 @@ import AbstractView from "../view";
 import {getTableData} from "../data/stats-data";
 import {drawStats} from "../game/game-view";
 import headerTemplate from "../templates/header";
-import footerTemplate from "../templates/footer";
 
 export default class StatsrView extends AbstractView {
   constructor(resultTable) {
@@ -28,7 +27,7 @@ export default class StatsrView extends AbstractView {
       let resultContent;
 
       if (isWin) {
-        const {totalResult, bonuses, totalFinal} = getTableData(resultObj.stats, resultObj.lives);
+        const {totalResult, tableBonuses, totalFinal} = getTableData(resultObj.stats, resultObj.lives);
         resultContent =
           `<table class="result__table">
             <tr>
@@ -37,7 +36,7 @@ export default class StatsrView extends AbstractView {
               <td class="result__points">×&nbsp;100</td>
               <td class="result__total">${totalResult}</td>
             </tr>
-            ${bonuses.map((bonus) =>
+            ${tableBonuses.map((bonus) =>
             `<tr>
               <td></td>
               <td class="result__extra">${bonus.title}:</td>
@@ -50,7 +49,7 @@ export default class StatsrView extends AbstractView {
             </tr>
           </table>`;
       } else {
-          resultContent =
+        resultContent =
           `<table class="result__table">
             <tr>
               <td class="result__number">${numb + 1}.</td>
@@ -61,15 +60,14 @@ export default class StatsrView extends AbstractView {
           </table>`;
       }
 
-      return resultContent
+      return resultContent;
     }).join(``);
 
     return `${headerTemplate()}
             <div class="result">
               ${currentGameTitle ? `<h1>Победа!</h1>` : ``}
               ${resultsTemplate}
-            </div>
-            ${footerTemplate}`.trim();
+            </div>`.trim();
   }
 
   bind() {

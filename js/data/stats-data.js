@@ -41,19 +41,19 @@ export const getBonus = (bonusName, amount) => {
   if (!bonus) {
     throw new Error(`The bonus is undefined`);
   } else {
-      return {
-        title: bonus.title,
-        classTitle: bonus.classTitle,
-        amount,
-        points: amount * bonus.cost
-      };
+    return {
+      title: bonus.title,
+      classTitle: bonus.classTitle,
+      amount,
+      points: amount * bonus.cost
+    };
   }
 };
 
 /**
  * Builds the object that contains scores and bonuses informatin.
  * @param {array} stats - list of user's result
- * @param {integer} lives - amount of lives that left in the end
+ * @param {number} lives - amount of lives that left in the end
  * @return {obj}
  */
 export const getTableData = (stats, lives) => {
@@ -66,7 +66,7 @@ export const getTableData = (stats, lives) => {
    * represents iformation about bonus.
    @return {object} for detailed information look at getBonus function return.
    */
-  const bonuses = (function () {
+  const tableBonuses = (function () {
     let bonusMap = {
       [FAST]: stats.filter((el) => el === FAST).length,
       [SLOW]: stats.filter((el) => el === SLOW).length,
@@ -79,14 +79,14 @@ export const getTableData = (stats, lives) => {
   }());
 
   // Accumulate all bonuses points and points that were given for each answer
-  const totalFinal = bonuses
+  const totalFinal = tableBonuses
       .reduce((accum, bonus) => {
         return accum + bonus.points;
       }, totalResult);
 
   return {
     totalResult,
-    bonuses,
+    tableBonuses,
     totalFinal
   };
 };

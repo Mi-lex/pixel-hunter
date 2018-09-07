@@ -1,7 +1,6 @@
 // Game view for "one-of-three" type
 
 import GameView from "./game-view";
-import footerTemplate from "../templates/footer";
 
 const drawContent = (level) => {
   return level.answers.map((answer, numb) => {
@@ -28,8 +27,7 @@ export default class GameType1View extends GameView {
                   ${this.statsTemplate}
                 </ul>
               </div>
-            </div>
-            ${footerTemplate}`;
+            </div>`;
   }
 
   bind() {
@@ -46,7 +44,7 @@ export default class GameType1View extends GameView {
     };
 
     content.addEventListener(`click`, onContentClickHandler);
-    this.extraGameElementsBind();
+    super.bind();
   }
 
   isAnswerCorrect(url) {

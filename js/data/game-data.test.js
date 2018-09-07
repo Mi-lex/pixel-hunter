@@ -9,12 +9,6 @@ export const getTestState = (newParams = {}, parentState = initialState) => {
   }, newParams);
 };
 
-const testStateLevel = {
-  1: getTestState(),
-  2: getTestState({gameNumb: 2}),
-  3: getTestState({gameNumb: 3})
-};
-
 describe(`Game`, function () {
   describe(`Level increaser`, function () {
     it(`should increase level by one`, function () {

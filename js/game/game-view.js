@@ -31,7 +31,7 @@ export default class GameView extends AbstractView {
     return drawStats(this.state.stats);
   }
 
-  extraGameElementsBind() {
+  bind() {
     this.backElement = this._element.querySelector(`.header__back`);
     this.timerElement = this._element.querySelector(`.game__timer`);
 
@@ -52,7 +52,7 @@ export default class GameView extends AbstractView {
     if (time === 0) {
       this.onAnswer(false);
     } else {
-        this.timerElement.textContent = time;
+      this.timerElement.textContent = time;
     }
   }
 }

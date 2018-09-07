@@ -1,5 +1,4 @@
 import AbstractView from "../view";
-import footerTemplate from "../templates/footer";
 
 export default class GreetingView extends AbstractView {
   get template() {
@@ -17,8 +16,7 @@ export default class GreetingView extends AbstractView {
                   Помни, главное — смотреть очень внимательно.</p>
               </div>
               <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
-            </div>
-            ${footerTemplate}`;
+            </div>`;
   }
 
   bind() {

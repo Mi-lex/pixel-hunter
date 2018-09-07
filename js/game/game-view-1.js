@@ -1,7 +1,6 @@
 // Game view for "tinder-like" type
 
 import GameView from "./game-view";
-import footerTemplate from "../templates/footer";
 
 export const drawContent = (level) => {
   return level.answers.map((answer, numb) => {
@@ -36,12 +35,10 @@ export default class GameType2View extends GameView {
                   ${this.statsTemplate}
                 </ul>
               </div>
-            </div>
-            ${footerTemplate}`;
+            </div>`;
   }
 
   bind() {
-    this.timerElement = this._element.querySelector(`.game__timer`);
     const content = this._element.querySelector(`.game__content`);
 
     const onContentClickHandler = (e) => {
@@ -53,7 +50,7 @@ export default class GameType2View extends GameView {
     };
 
     content.addEventListener(`click`, onContentClickHandler);
-    this.extraGameElementsBind();
+    super.bind();
   }
 
   isAnswerCorrect(value) {

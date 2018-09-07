@@ -27,9 +27,9 @@ class Application {
     }();
 
     this.model.load()
-      .then((data) => this.setup(data))
-      .then(() => this.changeController(...getControllerIDFromHash(location.hash)))
-      .catch(window.console.error);
+        .then((data) => this.setup(data))
+        .then(() => this.changeController(...getControllerIDFromHash(location.hash)))
+        .catch(window.console.error);
   }
 
   changeController(route = ``, userName = `Guest`) {
@@ -38,7 +38,7 @@ class Application {
     if (route === ControllerID.STATS) {
       controller = new this.routes[route](this.userResult, userName);
     } else {
-        controller = this.routes[route];
+      controller = this.routes[route];
     }
 
     controller.init();

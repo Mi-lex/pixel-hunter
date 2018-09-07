@@ -21,7 +21,7 @@ export const initialState = Object.freeze({
 
 /**
  * Defines user result depending on his performance.
- * @param {integer} answerTime - The time that the user spent giving an answer.
+ * @param {number} answerTime - The time that the user spent giving an answer.
  * @param {boolean} answerCorrect - Was the answer correct or not.
  * @return {string} - result.
  */
@@ -31,14 +31,14 @@ export const getResult = (answerTime, answerCorrect) => {
 
   if (answerCorrect) {
     if (answerTime <= 10) {
-        result = resultType.FAST;
+      result = resultType.FAST;
     } else if (answerTime <= 20) {
-        result = resultType.CORRECT;
+      result = resultType.CORRECT;
     } else if (answerTime > 20) {
-        result = resultType.SLOW;
+      result = resultType.SLOW;
     }
   } else {
-      result = resultType.WRONG;
+    result = resultType.WRONG;
   }
 
   return result;
