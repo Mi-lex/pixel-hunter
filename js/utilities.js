@@ -21,3 +21,28 @@ debounce.start = function (action, delayTime) {
     action();
   }, delayTime);
 };
+
+export const imageLoader = (url) => {
+  return new Promise((resolve, reject) => {
+    let timeOut = null;
+    const imgLoader = new Image();
+
+    imgLoader.onload = function () {
+      clearTimeout(timeOut);
+      resolve();
+    };
+
+    imgLoader.onerror = function () {
+      clearTimeout(timeOut);
+      reject();
+      throw new Error(`Downloading error!`);
+    };
+
+    timeOut = setTimeout(function () {
+      reject();
+      throw new Error(`Time out error!`);
+    }, 40000);
+
+    imgLoader.src = url;
+  });
+};
