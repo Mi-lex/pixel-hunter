@@ -1,0 +1,41 @@
+.rolling-star {
+  position: relative;
+
+  width: 800px;
+  height: 740px;
+}
+
+.rolling-star__asterisk {
+  position: relative;
+  top: 220px;
+  left: 30px;
+
+  text-align: center;
+
+  font-size: 172px;
+  color: $main-red-color;
+  cursor: pointer;
+
+  &:hover {
+    color: $link-hover-color;
+  }
+
+  &:active {
+    color: $link-active-color;
+  }
+
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform: translateY(-50%);
+  transform-origin: center -5px;
+}
+
+@keyframes spin { 
+  from { 
+      transform: rotate(0deg); 
+  } to { 
+      transform: rotate(360deg); 
+  }
+}
