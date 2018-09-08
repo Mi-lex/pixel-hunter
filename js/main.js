@@ -4,6 +4,8 @@ import Rules from './rules/rules';
 import Game from './game/game';
 import Stats from './stats/stats';
 import Model from "./model";
+import {SpinningStar} from "./star";
+import {changeView} from "./utilities";
 
 const ControllerID = {
   INTRO: ``,
@@ -19,6 +21,7 @@ const getControllerIDFromHash = (hash) => {
 
 class Application {
   constructor() {
+    this.preloadingScreen = new SpinningStar();
     this.userName = `Guest`;
     this.model = new class extends Model {
       get urlRead() {
@@ -26,6 +29,7 @@ class Application {
       }
     }();
 
+    changeView(this.preloadingScreen);
     this.model.load()
         .then((data) => this.setup(data))
         .then(() => this.changeController(...getControllerIDFromHash(location.hash)))
