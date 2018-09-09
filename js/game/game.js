@@ -47,8 +47,15 @@ export default class GamePresenter {
     // Preloads pictures from current level
     this.level.answers.map((answer) => {
       const loader = imageLoader(answer.image.url).
-          then(() => {}, () => {
-            // In case of timeout or another error shows intro screen
+          /**
+           * In case of success, write down natural sizes of loaded image
+           * into properties of level.answer.image object
+           */
+          then((imageNaturalSizes) => {
+            answer.image.naturalHeight = imageNaturalSizes.naturalHeight;
+            answer.image.naturalWidth = imageNaturalSizes.naturalWidth;
+          }, () => {
+            // In case of  error shows intro screen
             this.view.onBack();
           });
       // Accumulates all pictures loadings in the array
@@ -81,6 +88,7 @@ export default class GamePresenter {
 
       // if it's last level, show statistics screen
       if (this.state.gameNumb === this.state.stats.length) {
+        changeView(this.loadingScreen);
         this.state = setResult(this.state, result);
 
         const statsObj = {
@@ -90,10 +98,10 @@ export default class GamePresenter {
         app.showStats(this.userName, statsObj);
         // if level is not last, make a new view depending on level type and execute init method recursively
       } else {
-          this.state = setResult(this.state, result);
-          const nextLevel = this.level;
-          this.view = new GameView[nextLevel.type](this.state, nextLevel);
-          this.init();
+        this.state = setResult(this.state, result);
+        const nextLevel = this.level;
+        this.view = new GameView[nextLevel.type](this.state, nextLevel);
+        this.init();
       }
     };
 

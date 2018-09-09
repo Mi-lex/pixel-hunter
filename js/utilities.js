@@ -25,14 +25,21 @@ debounce.start = function (action, delayTime) {
 export const imageLoader = (url) => {
   return new Promise((resolve, reject) => {
     let timeOut = null;
-    const imgLoader = new Image();
+    const img = new Image();
 
-    imgLoader.onload = function () {
+    img.onload = function () {
       clearTimeout(timeOut);
-      resolve();
+
+      // Put natural size of loaded image into the object
+      const imageNaturalSizes = {
+        naturalWidth: img.naturalWidth,
+        naturalHeight: img.naturalHeight
+      };
+
+      resolve(imageNaturalSizes);
     };
 
-    imgLoader.onerror = function () {
+    img.onerror = function () {
       clearTimeout(timeOut);
       reject();
       throw new Error(`Downloading error!`);
@@ -43,6 +50,6 @@ export const imageLoader = (url) => {
       throw new Error(`Time out error!`);
     }, 40000);
 
-    imgLoader.src = url;
+    img.src = url;
   });
 };

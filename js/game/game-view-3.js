@@ -2,32 +2,22 @@
 
 import GameView from "./game-view";
 
-const drawContent = (level) => {
-  return level.answers.map((answer, numb) => {
-    return `<div class="game__option">
-              <img src="${answer.image.url}" width=${answer.image.width} height=${answer.image.height} alt="Option ${numb + 1}">
-            </div>`;
-  }).join(``);
-};
-
 export default class GameType1View extends GameView {
   constructor(state, level) {
     super(state, level);
   }
 
-  get template() {
-    return `${this.gameHeaderTemplate}
-            <div class="game">
-              <p class="game__task">${this.level.question}</p>
-              <form class="game__content game__content--triple">
-                ${drawContent(this.level)}
-              </form>
-              <div class="stats">
-                <ul class="stats">
-                  ${this.statsTemplate}
-                </ul>
-              </div>
-            </div>`;
+  get contentTemplate() {
+    return this.level.answers.map((answer, numb) => {
+      const answerSizes = [answer.image.naturalWidth, answer.image.naturalHeight,
+        answer.image.width, answer.image.height];
+      // Gets proper image size properties depending on frame size
+      const imageSizeProps = this.getImageSizeProperties(...answerSizes);
+
+      return `<div class="game__option">
+                <img src="${answer.image.url}" width=${imageSizeProps.widthProp} height=${imageSizeProps.heightProp} alt="Option ${numb + 1}">
+              </div>`;
+    }).join(``);
   }
 
   bind() {

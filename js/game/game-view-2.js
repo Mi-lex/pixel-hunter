@@ -1,26 +1,10 @@
 // Game view for "two-of-two" type
 
 import GameView from "./game-view";
-import {drawContent} from "./game-view-1";
 
 export default class GameType1View extends GameView {
   constructor(state, level) {
     super(state, level);
-  }
-
-  get template() {
-    return `${this.gameHeaderTemplate}
-            <div class="game">
-              <p class="game__task">${this.level.question}</p>
-              <form class="game__content">
-                ${drawContent(this.level)}
-              </form>
-              <div class="stats">
-                <ul class="stats">
-                  ${this.statsTemplate}
-                </ul>
-              </div>
-            </div>`;
   }
 
   bind() {
