@@ -1,6 +1,6 @@
 import IntroView from "./intro-view";
 import {changeView} from "../utilities";
-import app from "../main";
+import app from "../application";
 
 
 export default class IntroPresenter {

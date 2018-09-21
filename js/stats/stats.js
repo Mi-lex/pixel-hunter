@@ -1,5 +1,5 @@
 import StatsView from "./stats-view";
-import app from "../main";
+import app from "../application";
 import Model from "../model";
 import {changeView} from "../utilities";
 
@@ -23,7 +23,7 @@ export default class StatsPresenter {
           this.view = new StatsView(resultTable);
 
           this.view.onBack = () => {
-            app.showIntro();
+            app.restart();
           };
         })
         .then(() => changeView(this.view))
@@ -35,7 +35,8 @@ export default class StatsPresenter {
       this.model.send(this.userResult)
           .then(() => this.showUserResultTable());
     } else {
-        this.showUserResultTable();
+
+      this.showUserResultTable();
     }
   }
 }

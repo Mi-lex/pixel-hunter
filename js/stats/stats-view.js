@@ -43,11 +43,11 @@ export default class StatsrView extends AbstractView {
               <td class="result__extra">${bonus.amount}&nbsp;<span class="stats__result stats__result--${bonus.classTitle}"></span></td>
               <td class="result__points">×&nbsp;50</td>
               <td class="result__total">${bonus.points}</td>
-            </tr>`)}
+            </tr>`).join(``).trim()}
             <tr>
               <td colspan="5" class="result__total  result__total--final">${totalFinal}</td>
             </tr>
-          </table>`;
+          </table>\n`;
       } else {
         resultContent =
           `<table class="result__table">
@@ -57,17 +57,17 @@ export default class StatsrView extends AbstractView {
               <td class="result__total">${this.makeStatsTemplate(resultObj.stats)}</td>
               <td class="result__total  result__total--final">fail</td>
             </tr>
-          </table>`;
+          </table>\n`;
       }
 
       return resultContent;
-    }).join(``);
+    }).join(``).trim();
 
     return `${headerTemplate()}
             <div class="result">
-              ${currentGameTitle ? `<h1>Победа!</h1>` : ``}
+              ${currentGameTitle ? `<h1>Победа!</h1>\n` : ``}
               ${resultsTemplate}
-            </div>`.trim();
+            </div>\n`.trim();
   }
 
   bind() {

@@ -1,6 +1,6 @@
 import GreetingView from "./greeting-view";
 import {changeView} from "../utilities";
-import app from "../main";
+import app from "../application";
 
 export default class GreetingPresentor {
   constructor() {

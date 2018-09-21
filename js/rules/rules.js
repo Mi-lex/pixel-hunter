@@ -1,6 +1,6 @@
 import RulesView from "./rules-view";
 import {changeView} from "../utilities";
-import app from "../main";
+import app from "../application";
 
 export default class RulesPresenter {
   constructor() {
@@ -11,7 +11,7 @@ export default class RulesPresenter {
     changeView(this.view);
     this.view.onUserNameSubmit = (name) => {
       localStorage.setItem(`name`, name);
-      app.showGame();
+      app.showGame(name);
     };
 
     this.view.onBack = function () {

@@ -17,23 +17,25 @@ export default class RulesView extends AbstractView {
                 Готовы?
               </p>
               <form class="rules__form">
-                <input class="rules__input" type="text" placeholder="Ваше Имя">
-                <button class="rules__button  continue" type="submit" disabled>Go!</button>
+                <input class="rules__input" type="text" placeholder="Ваше Имя" 
+                  value="${localStorage.getItem(`name`) || ``}">
+                <button class="rules__button continue" 
+                  type="submit" ${(localStorage.getItem(`name`)) ? `` : `disabled`}>
+                  Go!
+                </button>
               </form>
             </div>`;
   }
 
   bind() {
-    const form = this._element.querySelector(`.rules__form`),
-      userNameInput = form.querySelector(`.rules__input`),
-      submitBtn = form.querySelector(`.rules__button`),
-      backElement = this._element.querySelector(`.header__back`);
+    const form = this._element.querySelector(`.rules__form`);
+    const userNameInput = form.querySelector(`.rules__input`);
+    const submitBtn = form.querySelector(`.rules__button`);
+    const backElement = this._element.querySelector(`.header__back`);
 
     const btnUpdate = () => {
       submitBtn.disabled = !(userNameInput.value.length > 1);
     };
-
-    submitBtn.disabled = true;
 
     userNameInput.addEventListener(`input`, () => {
       debounce.start(btnUpdate, 500);

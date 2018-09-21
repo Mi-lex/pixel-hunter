@@ -4,7 +4,7 @@ import GameType3View from "./game-view-3";
 import {SpinningStar} from "../star.js";
 import {changeView, imageLoader} from "../utilities";
 import {initialState, getResult, setResult, tick} from "../data/game-data";
-import app from "../main";
+import app from "../application";
 
 const GameView = {
   "tinder-like": GameType1View,
@@ -13,8 +13,8 @@ const GameView = {
 };
 
 export default class GamePresenter {
-  constructor(levels) {
-    this.userName = localStorage.getItem(`name`);
+  constructor(levels, userName) {
+    this.userName = userName;
     this.levels = levels;
     this.state = initialState;
     this.initialTime = this.state.time;
@@ -106,10 +106,7 @@ export default class GamePresenter {
     };
 
     this.view.onBack = () => {
-      this.stopTimer();
-      this.state = initialState;
-      this.view = new GameView[this.level.type](this.state, this.level);
-      app.showIntro();
+      app.restart();
     };
   }
 }
