@@ -26,6 +26,15 @@ export default class GamePresenter {
     return this.levels[this.state.gameNumb - 1];
   }
 
+  /**
+   * It's important to remember that this method
+   * creates a lot of closures inside. Timer recursively
+   * recreates itself calling method this.view.updateTime
+   * each tick. If we want to stop the game, just changing
+   * the view is not enough, becouse it wont stop the timer.
+   * Once time is over this.view.updateTime will execute
+   * this.view.OnAnswer that returns game process.
+   */
   startTimer() {
     const action = () => {
       this.state = tick(this.state);
@@ -106,6 +115,7 @@ export default class GamePresenter {
     };
 
     this.view.onBack = () => {
+      this.stopTimer();
       app.restart();
     };
   }

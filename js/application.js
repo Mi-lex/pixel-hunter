@@ -52,13 +52,15 @@ class Application {
 
   changeController(route = ``, ...variables) {
     let controller;
+    let userName;
 
     switch (route) {
       case ControllerID.GAME:
-        const [userName] = variables;
+        [userName] = variables;
         controller = new this.routes[route](this.gameData, userName);
         break;
       case ControllerID.STATS:
+        [userName] = variables;
         controller = new this.routes[route](this.userResult, userName);
         break;
 
